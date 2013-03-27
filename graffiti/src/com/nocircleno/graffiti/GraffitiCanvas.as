@@ -15,7 +15,8 @@
 * 	OTHER DEALINGS IN THE SOFTWARE.
 */
 
-package com.nocircleno.graffiti {
+package com.nocircleno.graffiti
+{
    
    import com.nocircleno.graffiti.interaction.IInteractionEventManager;
    import com.nocircleno.graffiti.interaction.InteractionInstance;
@@ -40,18 +41,11 @@ package com.nocircleno.graffiti {
     * Once you've created an instance of the GraffitiCanvas Class you can assign
     * different tools to the canvas.
     *
-    * <p>2.5 Features:
+    * <p>0.1.0 Features:
     * <ul>
-    *	  <li>Create a drawing area up to 4095x4095 pixels.</li>
-    *	  <li>Brush Tool providing 7 different Brush shapes with transparency and blur.</li>
-    *     <li>Line Tool providing Solid, Dashed and Dotted lines.</li>
-    *     <li>Shape Tool providing Rectangle, Square, Oval and Circle Shapes.</li>
-    *     <li>Fill Bucket Tool provides a way to quickly fill a solid area of color with another color.</li>
-    *     <li>Text Tool allows you to create, edit and move text on the canvas.</li>
-    *	  <li>Add a bitmap or vector image under and/or over the drawing area of the Canvas.</li>
-    *     <li>Built in zoom functionality including ability to drag an obscured canvas with the mouse.</li>
-    *     <li>Keep and control a history of the drawing allowing undo and redo's</li>
-    *     <li>Easily get a copy of your drawing to use with your favorite image encoder.</li>
+    *	  <li>Create a drawing area</li>
+    *	  <li>Brush Tool providing 7 different Brush shapes with transparency.</li>
+    *   <li>Easily get a copy of your drawing to use with your favorite image encoder.</li>
     * </ul></p>
     * <p>It is up to the developer to implement a UI for these features.
     * </p>
@@ -116,8 +110,8 @@ package com.nocircleno.graffiti {
        * </listing>
        * 
        */
-      public function GraffitiCanvas(canvasWidth:uint = 100, canvasHeight:uint = 100) {
-         
+      public function GraffitiCanvas(canvasWidth:uint = 100, canvasHeight:uint = 100)
+      {   
          // set width and height
          _canvasWidth = canvasWidth;
          _canvasHeight = canvasHeight;
@@ -125,7 +119,8 @@ package com.nocircleno.graffiti {
          init();
       }
       
-      private function init():void {
+      private function init():void
+      {
          /////////////////////////////////////////////////
          // Create Default Tool, a Brush
          /////////////////////////////////////////////////
@@ -139,8 +134,6 @@ package com.nocircleno.graffiti {
          
          _bmp = new BitmapData(_canvasWidth, _canvasHeight, true, 0x00FFFFFF);
          canvas = new Bitmap(_bmp, "auto", false);
-         
-         // add to display list
          addChild(container);
          container.addChild(canvas);
          container.addChild(drawing_layer);
@@ -160,7 +153,8 @@ package com.nocircleno.graffiti {
        *     <li>Changing the width of the canvas is NOT stored in the history.</li>
        * </ul>
        */
-      public function set canvasWidth(w:uint):void {
+      public function set canvasWidth(w:uint):void
+      {
          // set width
          _canvasWidth = w;
          
@@ -168,7 +162,8 @@ package com.nocircleno.graffiti {
          resizeCanvas();
       }
       
-      public function get canvasWidth():uint {
+      public function get canvasWidth():uint
+      {
          return _canvasWidth;
       }
       
@@ -179,10 +174,11 @@ package com.nocircleno.graffiti {
        * <ul>
        *	  <li>The canvas is resized from the upper left hand corner.</li>
        *	  <li>If you make the canvas height smaller, the drawing will get cropped on the bottom.</li>
-       *     <li>Changing the height of the canvas is NOT stored in the history.</li>
+       *   <li>Changing the height of the canvas is NOT stored in the history.</li>
        * </ul>
        */
-      public function set canvasHeight(h:uint):void {
+      public function set canvasHeight(h:uint):void
+      {
          // set height
          _canvasHeight = h;
          
@@ -190,26 +186,29 @@ package com.nocircleno.graffiti {
          resizeCanvas();
       }
       
-      public function get canvasHeight():uint {
+      public function get canvasHeight():uint
+      {
          return _canvasHeight;
       }
       
       /**
        * Control what Brush is used when the user interacts with the Canvas.
        */
-      public function set brush(brush:IBrush):void {
+      public function set brush(brush:IBrush):void
+      {
          _currentBrush = brush;			
       }
       
-      public function get brush():IBrush {
+      public function get brush():IBrush
+      {
          return _currentBrush;
       }
       
       /**
        * Display Object displayed above the drawing.
        */
-      public function set overlay(displayObject:DisplayObject):void {
-         
+      public function set overlay(displayObject:DisplayObject):void
+      {
          // if overlay already exists remove it before adding new overlay
          if(overlay_do != null) {
             container.removeChild(overlay_do);
@@ -221,17 +220,17 @@ package com.nocircleno.graffiti {
          // add overlay if exists
          if(overlay_do != null) {
             container.addChildAt(overlay_do, container.numChildren - 1);
-         }
-         
+         } 
       }
       
       /**
        * Display Object displayed under the drawing.
        */
-      public function set underlay(displayObject:DisplayObject):void {
-         
+      public function set underlay(displayObject:DisplayObject):void
+      {
          // if underlay already exists remove it before adding new underlay
-         if(underlay_do != null) {
+         if(underlay_do != null)
+         {
             container.removeChild(underlay_do);
          }
          
@@ -242,30 +241,29 @@ package com.nocircleno.graffiti {
          if(underlay_do != null) {
             container.addChildAt(underlay_do, 0);
          }
-         
       }
       
       /**
        * Control if Canvas is enabled.
        */
-      public function set canvasEnabled(en:Boolean):void {
+      public function set canvasEnabled(en:Boolean):void
+      {
          _canvasEnabled = en;
          this.mouseEnabled = en;
          this.mouseChildren = en;
       }
       
-      public function get canvasEnabled():Boolean {
+      public function get canvasEnabled():Boolean
+      {
          return _canvasEnabled;
       }
       
       /**
        * The <code>clearCanvas</code> method will clear the Canvas.
        */
-      public function clearCanvas():void {
-         
-         // clear canvas
-         _bmp.fillRect(new Rectangle(0, 0, _canvasWidth, _canvasHeight), 0x00FFFFFF);
-         
+      public function clearCanvas():void
+      {
+         _bmp.fillRect(new Rectangle(0, 0, _canvasWidth, _canvasHeight), 0x00FFFFFF);  
       }
       
       /**
@@ -276,8 +274,8 @@ package com.nocircleno.graffiti {
        * 
        * @return A BitmapData object containing the entire canvas.
        */
-      public function drawing(transparentBg:Boolean = false):BitmapData {
-         
+      public function drawing(transparentBg:Boolean = false):BitmapData
+      {   
          var canvasBmp:BitmapData;
          
          if(!transparentBg) {
@@ -289,7 +287,6 @@ package com.nocircleno.graffiti {
          canvasBmp.draw(container);
          
          return canvasBmp;
-         
       }
       
       /**
@@ -298,12 +295,12 @@ package com.nocircleno.graffiti {
        * 
        * @param asset Image to write to canvas. Object must IBitmapDrawable. This includes MovieClips, Sprites, Bitmaps, BitmapData.
        */
-      public function drawToCanvas(asset:Object):void {
-         
-         if(asset is IBitmapDrawable) {
+      public function drawToCanvas(asset:Object):void
+      {   
+         if(asset is IBitmapDrawable)
+         {
             _bmp.draw(IBitmapDrawable(asset));
-         }
-         
+         }  
       }
       
       /**************************************************************************
@@ -311,50 +308,36 @@ package com.nocircleno.graffiti {
        
        Purpose	: This method will resize the canvas assets.
        ***************************************************************************/
-      private function resizeCanvas():void {
-         
-         /////////////////////////////////////////////////
-         // Create Bitmap
-         /////////////////////////////////////////////////
-         if(_bmp != null) {
-            
+      private function resizeCanvas():void
+      {
+         if(_bmp != null)
+         {   
             // make a copy of the canvas
             var bmpCopy:BitmapData = _bmp.clone();
-            
-            // kill current bitmap
             _bmp.dispose();
-            
-            // create new bitmapdata object with new width and height
             _bmp = new BitmapData(_canvasWidth, _canvasHeight, true, 0x00FFFFFF);
             
             // copy pixels back
             _bmp.copyPixels(bmpCopy, bmpCopy.rect, new Point(0, 0));
             
-            // kill copy
             bmpCopy.dispose();
             
             // update canvas bitmapdata object
             canvas.bitmapData = _bmp;
             
          }
-         
-         // update scroll rect
-         this.scrollRect = new Rectangle(0, 0, _canvasWidth, _canvasHeight);
       }
       
       /**************************************************************************
        Method	: writeVectorToCanvas()
        
-       Purpose	: This method will handle the mouse events used for drawing.
-       
-       Params	: e -- MouseEvent object.
+       Purpose	: This method will write the vector draw layer to the bitmap
+                 canvas.  This will also clear the drawing layer.
        ***************************************************************************/
       private function writeVectorToCanvas():void
       {	
-         // draw to bitmap
+         trace("write it");
          _bmp.draw(drawing_layer, new Matrix(), null, Brush(_currentBrush).mode);
-         
-         // clear vectors from drawing space
          drawing_layer.graphics.clear();
       }
       
@@ -368,17 +351,11 @@ package com.nocircleno.graffiti {
        ***************************************************************************/
       private function draw(interactionInstance:InteractionInstance):void
       {   
-         var brushRef:IBrush = IBrush(_currentBrush);
-         
          // apply tool
-         if(interactionInstance.getPreviousPoint() == null) {
-            brushRef.apply(drawing_layer, interactionInstance.getNextPoint());
-         } else {
-            brushRef.apply(drawing_layer, interactionInstance.getPreviousPoint(), interactionInstance.getNextPoint());
-         }
+         _currentBrush.apply(drawing_layer, interactionInstance);
          
          // if render type is continuous then write image to 
-         if(Brush(brushRef).mode == ToolMode.ERASE) {
+         if(Brush(_currentBrush).mode == ToolMode.ERASE) {
             writeVectorToCanvas();				
          }
       }

@@ -63,7 +63,7 @@ package com.nocircleno.graffiti.interaction
       {
          var instance:InteractionInstance = _interactionInstanceObjectPool.getInstance();
          instance.init(e.touchPointID);
-         instance.addPoint(new Point(e.localX, e.localY));
+         instance.addPointToPath(new Point(e.localX, e.localY));
          _currentTouches.push(instance);   
          _currentNumberTouches++;
          
@@ -79,7 +79,7 @@ package com.nocircleno.graffiti.interaction
             return;  
          }
          
-         instance.addPoint(new Point(e.localX, e.localY));
+         instance.addPointToPath(new Point(e.localX, e.localY));
          if(_drawCallback != null) {
             _drawCallback.call(_target, instance);
          }
@@ -92,7 +92,7 @@ package com.nocircleno.graffiti.interaction
             return;  
          }
          
-         instance.addPoint(new Point(e.localX, e.localY));
+         instance.addPointToPath(new Point(e.localX, e.localY));
          
          removeInteractionInstanceByTouchId(e.touchPointID);
          _currentNumberTouches--;

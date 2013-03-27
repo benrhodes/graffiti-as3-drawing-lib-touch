@@ -17,6 +17,8 @@
 package com.nocircleno.graffiti.tools.brushes
 {
    
+   import com.nocircleno.graffiti.interaction.InteractionInstance;
+   
    import flash.display.CapsStyle;
    import flash.display.DisplayObject;
    import flash.display.GraphicsPathCommand;
@@ -27,36 +29,38 @@ package com.nocircleno.graffiti.tools.brushes
    
    public class RoundBrush extends Brush implements IBrush
    {
+      
+      private var _previousPointRef:Point;
+      private var _nextPointRef:Point;
+      
       public function RoundBrush(brushSize:Number = 4, brushColor:uint = 0x000000, brushAlpha:Number = 1, toolMode:String = null)
       {
          super(brushSize, brushColor, brushAlpha, toolMode);
       }
       
-      public function apply(drawingTarget:DisplayObject, point1:Point, point2:Point = null):void
+      public function apply(drawingTarget:DisplayObject, interactionInstance:InteractionInstance):void
       {
          // cast target as a Sprite
          var targetCast:Sprite = Sprite(drawingTarget);
          
+         _previousPointRef = interactionInstance.getPathNextToEndPoint();
+         _nextPointRef = interactionInstance.getPathEndPoint();
+         
          // if we only have one point then draw a single shape of the 
-         if(point2 == null) {
-            commands.push(GraphicsPathCommand.MOVE_TO);
-            drawingData.push(point1.x);
-            drawingData.push(point1.y);
-            
-            commands.push(GraphicsPathCommand.LINE_TO);
-            drawingData.push(point1.x + 1);
-            drawingData.push(point1.y + 1);  
-         } 
-         else
+         if(_previousPointRef == null)
          {
-            commands.push(GraphicsPathCommand.MOVE_TO);
-            drawingData.push(point1.x);
-            drawingData.push(point1.y);
-            
-            commands.push(GraphicsPathCommand.LINE_TO);
-            drawingData.push(point2.x);
-            drawingData.push(point2.y);  
-         }
+            _previousPointRef = _nextPointRef.clone();
+            _previousPointRef.x -= 1;
+            _previousPointRef.y -= 1;
+         } 
+         
+         commands.push(GraphicsPathCommand.MOVE_TO);
+         drawingData.push(_previousPointRef.x);
+         drawingData.push(_previousPointRef.y);
+         
+         commands.push(GraphicsPathCommand.LINE_TO);
+         drawingData.push(_nextPointRef.x);
+         drawingData.push(_nextPointRef.y);
          
          // draw brush session
          targetCast.graphics.clear();

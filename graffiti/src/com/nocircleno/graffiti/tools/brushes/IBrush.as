@@ -16,11 +16,12 @@
 */
 package com.nocircleno.graffiti.tools.brushes
 {
+   import com.nocircleno.graffiti.interaction.InteractionInstance;
+   
    import flash.display.DisplayObject;
-   import flash.geom.Point;
 
    public interface IBrush
    {
-      function apply(drawingTarget:DisplayObject, point1:Point, point2:Point = null):void;
+      function apply(drawingTarget:DisplayObject, interactionInstance:InteractionInstance):void;
    }
 }
