@@ -23,9 +23,13 @@ package com.nocircleno.graffiti.interaction
 		
 		private var _interactionId:int;
 		private var _path:Vector.<Point>;
-      private var _dirty:Boolean = false;
+      private var _pendingPointDirty:Boolean = false;
+      private var _pendingPoint:Point;
 		
-		public function InteractionInstance() {}
+		public function InteractionInstance()
+      {
+         _pendingPoint = new Point();
+      }
 		
 		public function get interactionId():int
       {
@@ -37,22 +41,26 @@ package com.nocircleno.graffiti.interaction
 			_interactionId = instanceId;
 			_path = new Vector.<Point>();
 		}
+      
+      public function setPendingPointToPath(point:Point):void {
+         _pendingPoint.x = point.x;
+         _pendingPoint.y = point.y;
+         _pendingPointDirty = true;
+      }
+      
+      public function writePendingPointToPath():Boolean {
+         if(_pendingPointDirty) {
+            _pendingPointDirty = false;
+            _path.push(_pendingPoint.clone());
+            return true;
+         }
+         return false;
+      }
 		
 		public function addPointToPath(point:Point):void
       {
 			_path.push(point);
-         _dirty = true;
 		}
-      
-      public function get dirty():Boolean
-      {
-         return _dirty;
-      }
-      
-      public function set dirty(isDirty):void
-      {
-         _dirty = isDirty;
-      }
 		
       public function getInstancePath():Vector.<Point>
       {

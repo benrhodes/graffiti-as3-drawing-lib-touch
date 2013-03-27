@@ -62,7 +62,7 @@ package com.nocircleno.graffiti.interaction
       
       private function onTouchBegin(e:TouchEvent):void
       {
-         e.stopImmediatePropagation();
+         e.stopPropagation();
          e.preventDefault();
          
          var instance:InteractionInstance = _interactionInstanceObjectPool.getInstance();
@@ -71,14 +71,14 @@ package com.nocircleno.graffiti.interaction
          _currentTouches.push(instance);   
          _currentNumberTouches++;
          
-         if(_drawCallback != null) {
-            _drawCallback.call(_target, instance);  
+         if(_currentNumberTouches == 1) {
+            _target.addEventListener(Event.ENTER_FRAME, drawToFrame);
          }
       }
       
       private function onTouchMove(e:TouchEvent):void
       {
-         e.stopImmediatePropagation();
+         e.stopPropagation();
          e.preventDefault();
          
          var instance:InteractionInstance =  getInteractiveInstanceByTouchId(e.touchPointID);
@@ -86,34 +86,49 @@ package com.nocircleno.graffiti.interaction
             return;  
          }
          
-         instance.addPointToPath(new Point(e.localX, e.localY));
-         
-         if(_drawCallback != null) {
-            _drawCallback.call(_target, instance);  
-         }
+         instance.setPendingPointToPath(new Point(e.localX, e.localY));
       }
       
       private function onTouchEnd(e:TouchEvent):void
       {
-         e.stopImmediatePropagation();
+         e.stopPropagation();
          e.preventDefault();
          
-         var instance:InteractionInstance =  getInteractiveInstanceByTouchId(e.touchPointID);
+         var instance:InteractionInstance = getInteractiveInstanceByTouchId(e.touchPointID);
          if(instance == null) {
             return;  
          }
          
-         instance.addPointToPath(new Point(e.localX, e.localY));
+         if(instance.writePendingPointToPath())
+         {
+            _drawCallback.call(_target, instance);     
+         }   
          
          removeInteractionInstanceByTouchId(e.touchPointID);
          _currentNumberTouches--;
          
-         if(_currentNumberTouches == 0) {
-            if(_touchesCompleteCallback) {
+         if(_currentNumberTouches == 0)
+         {
+            _target.removeEventListener(Event.ENTER_FRAME, drawToFrame);
+            
+            if(_touchesCompleteCallback)
+            {
                _touchesCompleteCallback.call(_target);
             }
+            
             _interactionInstanceObjectPool.resetCount();
          }   
+      }
+      
+      private function drawToFrame(e:Event):void
+      {
+         for(var i:int=0; i<_currentNumberTouches; i++)
+         {
+            if(_currentTouches[i].writePendingPointToPath())
+            {
+               _drawCallback.call(_target, _currentTouches[i]);     
+            }   
+         }
       }
       
       private function getInteractiveInstanceByTouchId(touchId:int):InteractionInstance

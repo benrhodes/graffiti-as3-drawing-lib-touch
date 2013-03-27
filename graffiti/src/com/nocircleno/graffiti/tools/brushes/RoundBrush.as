@@ -54,6 +54,11 @@ package com.nocircleno.graffiti.tools.brushes
             _previousPointRef.y -= 1;
          } 
          
+         if(_alpha == 1) {
+            commands.length = 0;
+            drawingData.length = 0;
+         }
+         
          commands.push(GraphicsPathCommand.MOVE_TO);
          drawingData.push(_previousPointRef.x);
          drawingData.push(_previousPointRef.y);
@@ -63,7 +68,9 @@ package com.nocircleno.graffiti.tools.brushes
          drawingData.push(_nextPointRef.y);
          
          // draw brush session
-         targetCast.graphics.clear();
+         if(_alpha < 1) {
+            targetCast.graphics.clear();
+         }
          targetCast.graphics.lineStyle(_size, _color, _alpha, false, LineScaleMode.NORMAL, CapsStyle.ROUND);
          targetCast.graphics.drawPath(commands, drawingData, GraphicsPathWinding.NON_ZERO); 
       }
