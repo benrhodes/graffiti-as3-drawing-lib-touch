@@ -7,6 +7,7 @@ package
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	
+   [SWF(backgroundColor='#ffffff', frameRate='60')]
 	public class GraffitiTouchDevelopmentApp extends Sprite
 	{
 		public function GraffitiTouchDevelopmentApp()
@@ -26,7 +27,6 @@ package
 			addChild(graffiti);
          
          var brush:RoundBrush = new RoundBrush(3, 0xff0000, 1);
-         
          graffiti.brush = brush;
 		}
 	}

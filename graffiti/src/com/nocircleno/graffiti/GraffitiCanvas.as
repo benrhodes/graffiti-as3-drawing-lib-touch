@@ -336,9 +336,9 @@ package com.nocircleno.graffiti
        ***************************************************************************/
       private function writeVectorToCanvas():void
       {	
-         trace("write it");
          _bmp.draw(drawing_layer, new Matrix(), null, Brush(_currentBrush).mode);
          drawing_layer.graphics.clear();
+         Brush(_currentBrush).clearLastPath();
       }
       
       /**************************************************************************

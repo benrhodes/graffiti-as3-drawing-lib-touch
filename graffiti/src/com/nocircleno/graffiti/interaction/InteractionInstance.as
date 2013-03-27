@@ -23,6 +23,7 @@ package com.nocircleno.graffiti.interaction
 		
 		private var _interactionId:int;
 		private var _path:Vector.<Point>;
+      private var _dirty:Boolean = false;
 		
 		public function InteractionInstance() {}
 		
@@ -40,7 +41,18 @@ package com.nocircleno.graffiti.interaction
 		public function addPointToPath(point:Point):void
       {
 			_path.push(point);
+         _dirty = true;
 		}
+      
+      public function get dirty():Boolean
+      {
+         return _dirty;
+      }
+      
+      public function set dirty(isDirty):void
+      {
+         _dirty = isDirty;
+      }
 		
       public function getInstancePath():Vector.<Point>
       {

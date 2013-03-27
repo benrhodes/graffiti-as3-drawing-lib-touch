@@ -16,6 +16,7 @@
 */
 package com.nocircleno.graffiti.interaction
 {
+   import flash.events.Event;
    import flash.events.EventDispatcher;
    import flash.events.IEventDispatcher;
    import flash.events.TouchEvent;
@@ -61,6 +62,9 @@ package com.nocircleno.graffiti.interaction
       
       private function onTouchBegin(e:TouchEvent):void
       {
+         e.stopImmediatePropagation();
+         e.preventDefault();
+         
          var instance:InteractionInstance = _interactionInstanceObjectPool.getInstance();
          instance.init(e.touchPointID);
          instance.addPointToPath(new Point(e.localX, e.localY));
@@ -68,25 +72,32 @@ package com.nocircleno.graffiti.interaction
          _currentNumberTouches++;
          
          if(_drawCallback != null) {
-            _drawCallback.call(_target, instance);
+            _drawCallback.call(_target, instance);  
          }
       }
       
       private function onTouchMove(e:TouchEvent):void
       {
+         e.stopImmediatePropagation();
+         e.preventDefault();
+         
          var instance:InteractionInstance =  getInteractiveInstanceByTouchId(e.touchPointID);
          if(instance == null) {
             return;  
          }
          
          instance.addPointToPath(new Point(e.localX, e.localY));
+         
          if(_drawCallback != null) {
-            _drawCallback.call(_target, instance);
+            _drawCallback.call(_target, instance);  
          }
       }
       
       private function onTouchEnd(e:TouchEvent):void
       {
+         e.stopImmediatePropagation();
+         e.preventDefault();
+         
          var instance:InteractionInstance =  getInteractiveInstanceByTouchId(e.touchPointID);
          if(instance == null) {
             return;  

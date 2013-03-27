@@ -94,13 +94,11 @@ package com.nocircleno.graffiti.tools.brushes {
       }
       
       /**
-       * The <code>resetTool</code> method will reset the drawing data held by the tool.
+       * The <code>clearLastPath</code> method will reset the drawing data held by the brush.
        */
-      public function resetTool():void {
-         
-         commands = new Vector.<int>();
-         drawingData = new Vector.<Number>();
-         
+      public function clearLastPath():void {
+         commands.length = 0;
+         drawingData.length = 0;  
       }
    	
 		/**
