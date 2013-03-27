@@ -347,12 +347,13 @@ package com.nocircleno.graffiti
        Purpose	: This method will take an interaction instance and draw the 
                  last two points to the drawing layer.
        
-       Params	: interactionInstance -- Interaction instance from the user.
+       Params	: interactionInstances -- An vector of Interaction instance from
+                                         the user.
        ***************************************************************************/
-      private function draw(interactionInstance:InteractionInstance):void
+      private function draw(interactionInstances:Vector.<InteractionInstance>):void
       {   
          // apply tool
-         _currentBrush.apply(drawing_layer, interactionInstance);
+         _currentBrush.apply(drawing_layer, interactionInstances);
          
          // if render type is continuous then write image to 
          if(Brush(_currentBrush).mode == ToolMode.ERASE) {

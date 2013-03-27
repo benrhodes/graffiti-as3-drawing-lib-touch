@@ -26,7 +26,7 @@ package
 			var graffiti:GraffitiCanvas = new GraffitiCanvas(stage.fullScreenWidth, stage.fullScreenHeight);
 			addChild(graffiti);
          
-         var brush:RoundBrush = new RoundBrush(3, 0xff0000, 1);
+         var brush:RoundBrush = new RoundBrush(12, 0xff0000, 1);
          graffiti.brush = brush;
 		}
 	}

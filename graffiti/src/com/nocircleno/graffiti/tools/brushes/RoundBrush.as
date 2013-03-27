@@ -38,34 +38,40 @@ package com.nocircleno.graffiti.tools.brushes
          super(brushSize, brushColor, brushAlpha, toolMode);
       }
       
-      public function apply(drawingTarget:DisplayObject, interactionInstance:InteractionInstance):void
+      public function apply(drawingTarget:DisplayObject, interactionInstances:Vector.<InteractionInstance>):void
       {
          // cast target as a Sprite
          var targetCast:Sprite = Sprite(drawingTarget);
          
-         _previousPointRef = interactionInstance.getPathNextToEndPoint();
-         _nextPointRef = interactionInstance.getPathEndPoint();
-         
-         // if we only have one point then draw a single shape of the 
-         if(_previousPointRef == null)
+         if(_alpha == 1)
          {
-            _previousPointRef = _nextPointRef.clone();
-            _previousPointRef.x -= 1;
-            _previousPointRef.y -= 1;
-         } 
-         
-         if(_alpha == 1) {
             commands.length = 0;
             drawingData.length = 0;
          }
          
-         commands.push(GraphicsPathCommand.MOVE_TO);
-         drawingData.push(_previousPointRef.x);
-         drawingData.push(_previousPointRef.y);
+         var numberInteractions:int = interactionInstances.length;
          
-         commands.push(GraphicsPathCommand.LINE_TO);
-         drawingData.push(_nextPointRef.x);
-         drawingData.push(_nextPointRef.y);
+         for(var i:int=0; i<numberInteractions; i++)
+         {
+            _previousPointRef = interactionInstances[i].getPathNextToEndPoint();
+            _nextPointRef = interactionInstances[i].getPathEndPoint();
+            
+            // if we only have one point then draw a single shape of the 
+            if(_previousPointRef == null)
+            {
+               _previousPointRef = _nextPointRef.clone();
+               _previousPointRef.x -= 1;
+               _previousPointRef.y -= 1;
+            } 
+            
+            commands.push(GraphicsPathCommand.MOVE_TO);
+            drawingData.push(_previousPointRef.x);
+            drawingData.push(_previousPointRef.y);
+            
+            commands.push(GraphicsPathCommand.LINE_TO);
+            drawingData.push(_nextPointRef.x);
+            drawingData.push(_nextPointRef.y);
+         }
          
          // draw brush session
          if(_alpha < 1) {

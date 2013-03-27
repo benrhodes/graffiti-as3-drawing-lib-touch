@@ -30,6 +30,7 @@ package com.nocircleno.graffiti.interaction
       private var _target:IEventDispatcher;
       private var _interactionInstanceObjectPool:InteractiveInstanceObjectPool;
       private var _currentTouches:Vector.<InteractionInstance>;
+      private var _changedInteractions:Vector.<InteractionInstance>;
       private var _currentNumberTouches:int = 0;
       private var _drawCallback:Function;
       private var _touchesCompleteCallback:Function;
@@ -37,6 +38,7 @@ package com.nocircleno.graffiti.interaction
       public function TouchInteractionEventManager(target:IEventDispatcher=null)
       {
          super(target);
+         _changedInteractions = new Vector.<InteractionInstance>();
          _target = target;
          init();
       }
@@ -101,7 +103,7 @@ package com.nocircleno.graffiti.interaction
          
          if(instance.writePendingPointToPath())
          {
-            _drawCallback.call(_target, instance);     
+            _drawCallback.call(_target, _currentTouches);     
          }   
          
          removeInteractionInstanceByTouchId(e.touchPointID);
@@ -122,12 +124,18 @@ package com.nocircleno.graffiti.interaction
       
       private function drawToFrame(e:Event):void
       {
+         _changedInteractions.length = 0;
          for(var i:int=0; i<_currentNumberTouches; i++)
          {
             if(_currentTouches[i].writePendingPointToPath())
             {
-               _drawCallback.call(_target, _currentTouches[i]);     
+               _changedInteractions.push(_currentTouches[i]);
             }   
+         }
+         
+         if(_changedInteractions.length > 0)
+         {
+            _drawCallback.call(_target, _changedInteractions);    
          }
       }
       
