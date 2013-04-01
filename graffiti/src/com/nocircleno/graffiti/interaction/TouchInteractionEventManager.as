@@ -29,8 +29,9 @@ package com.nocircleno.graffiti.interaction
       
       private var _target:IEventDispatcher;
       private var _interactionInstanceObjectPool:InteractiveInstanceObjectPool;
-      private var _currentTouches:Vector.<InteractionInstance>;
+      private var _currentTouches:Object;
       private var _changedInteractions:Vector.<InteractionInstance>;
+      private var _interactionInstanceReference:InteractionInstance;
       private var _currentNumberTouches:int = 0;
       private var _drawCallback:Function;
       private var _touchesCompleteCallback:Function;
@@ -56,7 +57,7 @@ package com.nocircleno.graffiti.interaction
          Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
          
          _interactionInstanceObjectPool = new InteractiveInstanceObjectPool();
-         _currentTouches = new Vector.<InteractionInstance>();
+         _currentTouches = new Object();
          _target.addEventListener(TouchEvent.TOUCH_BEGIN, onTouchBegin);	
          _target.addEventListener(TouchEvent.TOUCH_MOVE, onTouchMove);
          _target.addEventListener(TouchEvent.TOUCH_END, onTouchEnd);
@@ -67,10 +68,10 @@ package com.nocircleno.graffiti.interaction
          e.stopPropagation();
          e.preventDefault();
          
-         var instance:InteractionInstance = _interactionInstanceObjectPool.getInstance();
-         instance.init(e.touchPointID);
-         instance.addPointToPath(new Point(e.localX, e.localY));
-         _currentTouches.push(instance);   
+         _interactionInstanceReference = _interactionInstanceObjectPool.getInstance();
+         _interactionInstanceReference.init(e.touchPointID);
+         _interactionInstanceReference.addPointToPath(new Point(e.localX, e.localY));
+         _currentTouches[e.touchPointID] = _interactionInstanceReference; 
          _currentNumberTouches++;
          
          if(_currentNumberTouches == 1) {
@@ -83,12 +84,12 @@ package com.nocircleno.graffiti.interaction
          e.stopPropagation();
          e.preventDefault();
          
-         var instance:InteractionInstance =  getInteractiveInstanceByTouchId(e.touchPointID);
-         if(instance == null) {
+         _interactionInstanceReference = _currentTouches[e.touchPointID];
+         if(_interactionInstanceReference == null) {
             return;  
          }
          
-         instance.setPendingPointToPath(new Point(e.localX, e.localY));
+         _interactionInstanceReference.setPendingPointToPath(new Point(e.localX, e.localY));
       }
       
       private function onTouchEnd(e:TouchEvent):void
@@ -96,17 +97,17 @@ package com.nocircleno.graffiti.interaction
          e.stopPropagation();
          e.preventDefault();
          
-         var instance:InteractionInstance = getInteractiveInstanceByTouchId(e.touchPointID);
-         if(instance == null) {
+         _interactionInstanceReference = InteractionInstance(_currentTouches[e.touchPointID]);
+         if(_interactionInstanceReference == null) {
             return;  
          }
          
-         if(instance.writePendingPointToPath())
+         if(_interactionInstanceReference.writePendingPointToPath())
          {
-            _drawCallback.call(_target, _currentTouches);     
+            drawToFrame(null);    
          }   
          
-         removeInteractionInstanceByTouchId(e.touchPointID);
+         delete _currentTouches[e.touchPointID];
          _currentNumberTouches--;
          
          if(_currentNumberTouches == 0)
@@ -125,36 +126,17 @@ package com.nocircleno.graffiti.interaction
       private function drawToFrame(e:Event):void
       {
          _changedInteractions.length = 0;
-         for(var i:int=0; i<_currentNumberTouches; i++)
+         for each(var interaction:InteractionInstance in _currentTouches)
          {
-            if(_currentTouches[i].writePendingPointToPath())
+            if(interaction.writePendingPointToPath())
             {
-               _changedInteractions.push(_currentTouches[i]);
+               _changedInteractions.push(interaction);
             }   
          }
-         
+                  
          if(_changedInteractions.length > 0)
          {
             _drawCallback.call(_target, _changedInteractions);    
-         }
-      }
-      
-      private function getInteractiveInstanceByTouchId(touchId:int):InteractionInstance
-      {
-         for(var i:int=0; i<_currentNumberTouches; i++) {
-            if(_currentTouches[i].interactionId == touchId) {
-               return _currentTouches[i];
-            }
-         }
-         return null;
-      }
-      
-      private function removeInteractionInstanceByTouchId(touchId:int):void {
-         for(var i:int=0; i<_currentNumberTouches; i++) {
-            if(_currentTouches[i].interactionId == touchId) {
-               _currentTouches.splice(i, 1);
-               return;
-            }
          }
       }
    }

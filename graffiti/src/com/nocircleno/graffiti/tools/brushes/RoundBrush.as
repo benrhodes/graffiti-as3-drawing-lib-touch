@@ -38,6 +38,11 @@ package com.nocircleno.graffiti.tools.brushes
          super(brushSize, brushColor, brushAlpha, toolMode);
       }
       
+      public function applyGraphicsStyle(drawingTarget:DisplayObject):void
+      {
+         Sprite(drawingTarget).graphics.lineStyle(_size, _color, _alpha, false, LineScaleMode.NORMAL, CapsStyle.ROUND);
+      }
+      
       public function apply(drawingTarget:DisplayObject, interactionInstances:Vector.<InteractionInstance>):void
       {
          // cast target as a Sprite
@@ -77,7 +82,7 @@ package com.nocircleno.graffiti.tools.brushes
          if(_alpha < 1) {
             targetCast.graphics.clear();
          }
-         targetCast.graphics.lineStyle(_size, _color, _alpha, false, LineScaleMode.NORMAL, CapsStyle.ROUND);
+         
          targetCast.graphics.drawPath(commands, drawingData, GraphicsPathWinding.NON_ZERO); 
       }
    }

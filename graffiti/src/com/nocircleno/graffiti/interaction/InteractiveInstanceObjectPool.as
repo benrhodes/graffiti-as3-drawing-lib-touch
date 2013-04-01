@@ -30,7 +30,7 @@ package com.nocircleno.graffiti.interaction
          
          _instanceCount++;
 			
-			return _interactiveInstancePool[_interactiveInstancePool.length - 1];
+			return _interactiveInstancePool[_instanceCount - 1];
 		}
 	}
 }

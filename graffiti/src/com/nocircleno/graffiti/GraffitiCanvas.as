@@ -120,12 +120,7 @@ package com.nocircleno.graffiti
       }
       
       private function init():void
-      {
-         /////////////////////////////////////////////////
-         // Create Default Tool, a Brush
-         /////////////////////////////////////////////////
-         _currentBrush = new RoundBrush(16, 0x000000, 1);
-         
+      { 
          /////////////////////////////////////////////////
          // Create Canvas Assets
          /////////////////////////////////////////////////
@@ -141,6 +136,11 @@ package com.nocircleno.graffiti
          _interactionEventManager = new TouchInteractionEventManager(this);
          _interactionEventManager.setAllTouchesCompleteCallback(writeVectorToCanvas);
          _interactionEventManager.setDrawCallback(draw);
+         
+         /////////////////////////////////////////////////
+         // Create Default Tool, a Brush
+         /////////////////////////////////////////////////
+         this.brush = new RoundBrush(16, 0x000000, 1);
       }
       
       /**
@@ -196,7 +196,8 @@ package com.nocircleno.graffiti
        */
       public function set brush(brush:IBrush):void
       {
-         _currentBrush = brush;			
+         _currentBrush = brush;
+         _currentBrush.applyGraphicsStyle(drawing_layer);
       }
       
       public function get brush():IBrush
@@ -339,6 +340,7 @@ package com.nocircleno.graffiti
          _bmp.draw(drawing_layer, new Matrix(), null, Brush(_currentBrush).mode);
          drawing_layer.graphics.clear();
          Brush(_currentBrush).clearLastPath();
+         _currentBrush.applyGraphicsStyle(drawing_layer);
       }
       
       /**************************************************************************

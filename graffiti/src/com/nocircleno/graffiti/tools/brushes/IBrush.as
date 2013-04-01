@@ -22,6 +22,7 @@ package com.nocircleno.graffiti.tools.brushes
 
    public interface IBrush
    {
+      function applyGraphicsStyle(drawingTarget:DisplayObject):void;
       function apply(drawingTarget:DisplayObject, interactionInstance:Vector.<InteractionInstance>):void;
    }
 }
