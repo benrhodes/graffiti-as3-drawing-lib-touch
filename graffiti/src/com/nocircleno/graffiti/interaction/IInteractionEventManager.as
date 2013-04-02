@@ -18,7 +18,7 @@ package com.nocircleno.graffiti.interaction
 {
    public interface IInteractionEventManager
    {
-      function setDrawCallback(draw:Function):void;
-      function setAllTouchesCompleteCallback(completeCallback:Function):void;
+      function setInteractionUpdateCallback(draw:Function):void;
+      function setInteractionCompleteCallback(completeCallback:Function):void;
    }
 }

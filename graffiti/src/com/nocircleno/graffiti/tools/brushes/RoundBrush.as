@@ -19,12 +19,14 @@ package com.nocircleno.graffiti.tools.brushes
    
    import com.nocircleno.graffiti.interaction.InteractionInstance;
    
+   import flash.display.BitmapData;
    import flash.display.CapsStyle;
    import flash.display.DisplayObject;
    import flash.display.GraphicsPathCommand;
    import flash.display.GraphicsPathWinding;
    import flash.display.LineScaleMode;
    import flash.display.Sprite;
+   import flash.geom.Matrix;
    import flash.geom.Point;
    
    public class RoundBrush extends Brush implements IBrush
@@ -38,11 +40,36 @@ package com.nocircleno.graffiti.tools.brushes
          super(brushSize, brushColor, brushAlpha, toolMode);
       }
       
+      /**
+       * The <code>cacheToBitmap</code> method will write the drawing layer to the cavnas bitmap.
+       *
+       * @param bitmap Bitmap to draw.
+       * @param drawingLayer Drawing layer.
+       */
+      public function cacheToBitmap(bitmap:BitmapData, drawingLayer:Sprite):void
+      {
+         bitmap.draw(drawingLayer, new Matrix(), null, mode);
+         drawingLayer.graphics.clear();
+         clearLastPath();
+         applyGraphicsStyle(drawingLayer);
+      }
+      
+      /**
+       * The <code>applyGraphicsStyle</code> method will apply the graphics draw style to display object.
+       *
+       * @param drawingTarget Display object to draw interaction in.
+       */
       public function applyGraphicsStyle(drawingTarget:DisplayObject):void
       {
          Sprite(drawingTarget).graphics.lineStyle(_size, _color, _alpha, false, LineScaleMode.NORMAL, CapsStyle.ROUND);
       }
       
+      /**
+       * The <code>apply</code> method will draw the interactions to the drawing layer.
+       *
+       * @param drawingTarget Display object to draw interaction in.
+       * @param interactionInstances List of Interaction Instances.
+       */
       public function apply(drawingTarget:DisplayObject, interactionInstances:Vector.<InteractionInstance>):void
       {
          // cast target as a Sprite

@@ -26,15 +26,14 @@ package com.nocircleno.graffiti.interaction
    
    public class TouchInteractionEventManager extends EventDispatcher implements IInteractionEventManager
    {
-      
       private var _target:IEventDispatcher;
       private var _interactionInstanceObjectPool:InteractiveInstanceObjectPool;
       private var _currentTouches:Object;
       private var _changedInteractions:Vector.<InteractionInstance>;
       private var _interactionInstanceReference:InteractionInstance;
       private var _currentNumberTouches:int = 0;
-      private var _drawCallback:Function;
-      private var _touchesCompleteCallback:Function;
+      private var _interactionUpdateCallback:Function;
+      private var _interactionCompleteCallback:Function;
       
       public function TouchInteractionEventManager(target:IEventDispatcher=null)
       {
@@ -44,12 +43,24 @@ package com.nocircleno.graffiti.interaction
          init();
       }
      
-      public function setDrawCallback(draw:Function):void {
-         _drawCallback = draw;
+      /**
+       * The <code>setInteractionUpdateCallback</code> method assigns a function that be called
+       * when an interaction has changed.
+       *
+       * @param interactionUpdateCallback Callback function.
+       */
+      public function setInteractionUpdateCallback(interactionUpdateCallback:Function):void {
+         _interactionUpdateCallback = interactionUpdateCallback;
       }
       
-      public function setAllTouchesCompleteCallback(completeCallback:Function):void {
-         _touchesCompleteCallback = completeCallback;
+      /**
+       * The <code>setInteractionCompleteCallback</code> method assigns a function that be called
+       * when all interactions are complete.
+       *
+       * @param interactionCompleteCallback Callback function.
+       */
+      public function setInteractionCompleteCallback(interactionCompleteCallback:Function):void {
+         _interactionCompleteCallback = interactionCompleteCallback;
       }
       
       private function init():void
@@ -114,9 +125,9 @@ package com.nocircleno.graffiti.interaction
          {
             _target.removeEventListener(Event.ENTER_FRAME, drawToFrame);
             
-            if(_touchesCompleteCallback)
+            if(_interactionCompleteCallback)
             {
-               _touchesCompleteCallback.call(_target);
+               _interactionCompleteCallback.call(_target);
             }
             
             _interactionInstanceObjectPool.resetCount();
@@ -136,7 +147,7 @@ package com.nocircleno.graffiti.interaction
                   
          if(_changedInteractions.length > 0)
          {
-            _drawCallback.call(_target, _changedInteractions);    
+            _interactionUpdateCallback.call(_target, _changedInteractions);    
          }
       }
    }

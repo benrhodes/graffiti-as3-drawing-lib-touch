@@ -18,10 +18,13 @@ package com.nocircleno.graffiti.tools.brushes
 {
    import com.nocircleno.graffiti.interaction.InteractionInstance;
    
+   import flash.display.BitmapData;
    import flash.display.DisplayObject;
+   import flash.display.Sprite;
 
    public interface IBrush
    {
+      function cacheToBitmap(bitmap:BitmapData, drawingLayer:Sprite):void;
       function applyGraphicsStyle(drawingTarget:DisplayObject):void;
       function apply(drawingTarget:DisplayObject, interactionInstance:Vector.<InteractionInstance>):void;
    }

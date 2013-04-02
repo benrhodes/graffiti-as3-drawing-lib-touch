@@ -37,12 +37,17 @@ package com.nocircleno.graffiti.interaction
 			return _interactionId;
 		}
 		
+      /**
+       * The <code>init</code> method will refresh the instance.
+       *
+       * @param instanceId Id for interaction
+       */
 		public function init(instanceId):void
       {
 			_interactionId = instanceId;
          _path.length = 0;
 		}
-      
+
       public function setPendingPointToPath(point:Point):void {
          _pendingPoint.x = point.x;
          _pendingPoint.y = point.y;

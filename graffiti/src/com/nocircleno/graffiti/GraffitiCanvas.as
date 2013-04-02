@@ -31,7 +31,6 @@ package com.nocircleno.graffiti
    import flash.display.DisplayObject;
    import flash.display.IBitmapDrawable;
    import flash.display.Sprite;
-   import flash.geom.Matrix;
    import flash.geom.Point;
    import flash.geom.Rectangle;
    
@@ -75,7 +74,6 @@ package com.nocircleno.graffiti
        * 
        * @param canvasWidth Width of the canvas.
        * @param canvasHeight Height of the canvas.
-       * @param numberHistoryLevels Max number of History items to keep, if 0 then no history is kept.
        * @param overlay An optional DisplayObject that can be used as an overlay to the Canvas.  DisplayObject should be partially transparent.
        * @param underlay An optional DisplayObject that can be used as an underlay to the Canvas.
        *
@@ -92,16 +90,16 @@ package com.nocircleno.graffiti
        *			
        *			public function Main() {
        *				
-       *				// create new instance of graffiti canvas, with a width and height of 400 and 10 history levels.
+       *				// create new instance of graffiti canvas, with a width and height of 400.
        *				// by default a Brush instance is created inside the GraffitiCanvas Class and assigned as the active tool.
-       *				var canvas:GraffitiCanvas = new GraffitiCanvas(400, 400, 10);
+       *				var canvas:GraffitiCanvas = new GraffitiCanvas(400, 400);
        *				addChild(canvas);
        *				
-       *				// create a new BrushTool instance, brush size of 8, brush color is Red, fully opaque, no blur and Brush type is Backward line.
-       *				var angledBrush:BrushTool = new BrushTool(8, 0xFF0000, 1, 0, BrushType.BACKWARD_LINE);
+       *				// create a new BrushTool instance, brush size of 8, brush color is Red, fully opaque.
+       *				var brush:RoundBrush = new RoundBrush(8, 0xFF0000, 1);
        *				
        *				// assign the Brush as the active tool used by the Canvas
-       *				canvas.activeTool = angledBrush;
+       *				canvas.brush = brush;
        *				
        *			}
        *			
@@ -112,7 +110,6 @@ package com.nocircleno.graffiti
        */
       public function GraffitiCanvas(canvasWidth:uint = 100, canvasHeight:uint = 100)
       {   
-         // set width and height
          _canvasWidth = canvasWidth;
          _canvasHeight = canvasHeight;
          
@@ -134,8 +131,8 @@ package com.nocircleno.graffiti
          container.addChild(drawing_layer);
          
          _interactionEventManager = new TouchInteractionEventManager(this);
-         _interactionEventManager.setAllTouchesCompleteCallback(writeVectorToCanvas);
-         _interactionEventManager.setDrawCallback(draw);
+         _interactionEventManager.setInteractionCompleteCallback(finalizeInteraction);
+         _interactionEventManager.setInteractionUpdateCallback(drawInteraction);
          
          /////////////////////////////////////////////////
          // Create Default Tool, a Brush
@@ -150,7 +147,6 @@ package com.nocircleno.graffiti
        * <ul>
        *	  <li>The canvas is resized from the upper left hand corner.</li>
        *	  <li>If you make the canvas width smaller, the drawing will get cropped on the right side.</li>
-       *     <li>Changing the width of the canvas is NOT stored in the history.</li>
        * </ul>
        */
       public function set canvasWidth(w:uint):void
@@ -174,7 +170,6 @@ package com.nocircleno.graffiti
        * <ul>
        *	  <li>The canvas is resized from the upper left hand corner.</li>
        *	  <li>If you make the canvas height smaller, the drawing will get cropped on the bottom.</li>
-       *   <li>Changing the height of the canvas is NOT stored in the history.</li>
        * </ul>
        */
       public function set canvasHeight(h:uint):void
@@ -268,14 +263,14 @@ package com.nocircleno.graffiti
       }
       
       /**
-       * The <code>drawing</code> method will return the bitmapdata object that captures
+       * The <code>getComposition</code> method will return the bitmapdata object that captures
        * the drawn canvas including any overlay or underlay assets.
        *
        * @param transparentBg Specify if you want the image to have a transparent background.
        * 
        * @return A BitmapData object containing the entire canvas.
        */
-      public function drawing(transparentBg:Boolean = false):BitmapData
+      public function getComposition(transparentBg:Boolean = false):BitmapData
       {   
          var canvasBmp:BitmapData;
          
@@ -325,26 +320,22 @@ package com.nocircleno.graffiti
             
             // update canvas bitmapdata object
             canvas.bitmapData = _bmp;
-            
          }
       }
       
       /**************************************************************************
-       Method	: writeVectorToCanvas()
+       Method	: finalizeInteraction()
        
        Purpose	: This method will write the vector draw layer to the bitmap
                  canvas.  This will also clear the drawing layer.
        ***************************************************************************/
-      private function writeVectorToCanvas():void
+      private function finalizeInteraction():void
       {	
-         _bmp.draw(drawing_layer, new Matrix(), null, Brush(_currentBrush).mode);
-         drawing_layer.graphics.clear();
-         Brush(_currentBrush).clearLastPath();
-         _currentBrush.applyGraphicsStyle(drawing_layer);
+         _currentBrush.cacheToBitmap(_bmp, drawing_layer);
       }
       
       /**************************************************************************
-       Method	: draw()
+       Method	: drawInteraction()
        
        Purpose	: This method will take an interaction instance and draw the 
                  last two points to the drawing layer.
@@ -352,14 +343,13 @@ package com.nocircleno.graffiti
        Params	: interactionInstances -- An vector of Interaction instance from
                                          the user.
        ***************************************************************************/
-      private function draw(interactionInstances:Vector.<InteractionInstance>):void
+      private function drawInteraction(interactionInstances:Vector.<InteractionInstance>):void
       {   
          // apply tool
          _currentBrush.apply(drawing_layer, interactionInstances);
          
-         // if render type is continuous then write image to 
          if(Brush(_currentBrush).mode == ToolMode.ERASE) {
-            writeVectorToCanvas();				
+            finalizeInteraction();				
          }
       }
    }
