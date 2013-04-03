@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testrun name="" >
+<testsuite  name="Default Test Suite" project="GraffitiTouchTests">
+<testsuite name="flexUnitTests:GraffitiCanvasTest" type="testcaseclass">
+<testcase name="testDrawToCanvas" classname="flexUnitTests:GraffitiCanvasTest"/>
+</testsuite>
+</testsuite>
+<portNumber value="8765" />
+</testrun>

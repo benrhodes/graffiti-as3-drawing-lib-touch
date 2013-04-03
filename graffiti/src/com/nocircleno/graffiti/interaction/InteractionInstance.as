@@ -21,7 +21,7 @@ package com.nocircleno.graffiti.interaction
 	public class InteractionInstance
 	{
 		
-		private var _interactionId:int;
+		private var _interactionId:int = -1;
 		private var _path:Vector.<Point>;
       private var _pendingPointDirty:Boolean = false;
       private var _pendingPoint:Point;
@@ -46,6 +46,7 @@ package com.nocircleno.graffiti.interaction
       {
 			_interactionId = instanceId;
          _path.length = 0;
+         _pendingPointDirty = false;
 		}
 
       public function setPendingPointToPath(point:Point):void {
