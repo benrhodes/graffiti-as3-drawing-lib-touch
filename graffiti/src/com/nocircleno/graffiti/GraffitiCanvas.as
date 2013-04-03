@@ -21,8 +21,8 @@ package com.nocircleno.graffiti
    import com.nocircleno.graffiti.interaction.IInteractionEventManager;
    import com.nocircleno.graffiti.interaction.InteractionInstance;
    import com.nocircleno.graffiti.interaction.TouchInteractionEventManager;
+   import com.nocircleno.graffiti.tools.BitmapCacheRenderMode;
    import com.nocircleno.graffiti.tools.brushes.Brush;
-   import com.nocircleno.graffiti.tools.ToolMode;
    import com.nocircleno.graffiti.tools.brushes.IBrush;
    import com.nocircleno.graffiti.tools.brushes.RoundBrush;
    
@@ -43,6 +43,7 @@ package com.nocircleno.graffiti
     * <p>0.1.0 Features:
     * <ul>
     *	  <li>Create a drawing area</li>
+    *	  <li>Multi Touch Support</li>
     *	  <li>Brush Tool providing 7 different Brush shapes with transparency.</li>
     *   <li>Easily get a copy of your drawing to use with your favorite image encoder.</li>
     * </ul></p>
@@ -83,8 +84,7 @@ package com.nocircleno.graffiti
        *
        *		import flash.display.Sprite;
        *		import com.nocircleno.graffiti.GraffitiCanvas;
-       *		import com.nocircleno.graffiti.tools.BrushTool;
-       *		import com.nocircleno.graffiti.tools.BrushType;
+       *		import com.nocircleno.graffiti.tools.brushes.RoundBrush;
        *		
        *		public class Main extends Sprite {
        *			
@@ -95,7 +95,7 @@ package com.nocircleno.graffiti
        *				var canvas:GraffitiCanvas = new GraffitiCanvas(400, 400);
        *				addChild(canvas);
        *				
-       *				// create a new BrushTool instance, brush size of 8, brush color is Red, fully opaque.
+       *				// create a new Round Brush instance, brush size of 8, brush color is Red, fully opaque.
        *				var brush:RoundBrush = new RoundBrush(8, 0xFF0000, 1);
        *				
        *				// assign the Brush as the active tool used by the Canvas
@@ -137,7 +137,8 @@ package com.nocircleno.graffiti
          /////////////////////////////////////////////////
          // Create Default Tool, a Brush
          /////////////////////////////////////////////////
-         this.brush = new RoundBrush(16, 0x000000, 1);
+         var defaultBrush:RoundBrush = new RoundBrush(16, 0x000000, 1); 
+         this.brush = defaultBrush;
       }
       
       /**
@@ -345,10 +346,9 @@ package com.nocircleno.graffiti
        ***************************************************************************/
       private function drawInteraction(interactionInstances:Vector.<InteractionInstance>):void
       {   
-         // apply tool
          _currentBrush.apply(drawing_layer, interactionInstances);
          
-         if(Brush(_currentBrush).mode == ToolMode.ERASE) {
+         if(Brush(_currentBrush).bitmapCacheRenderMode == BitmapCacheRenderMode.ERASE) {
             finalizeInteraction();				
          }
       }

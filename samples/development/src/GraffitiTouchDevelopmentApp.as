@@ -1,7 +1,13 @@
 package
 {
 	import com.nocircleno.graffiti.GraffitiCanvas;
+	import com.nocircleno.graffiti.tools.brushes.BackwardLineBrush;
+	import com.nocircleno.graffiti.tools.brushes.DiamondBrush;
+	import com.nocircleno.graffiti.tools.brushes.ForwardLineBrush;
+	import com.nocircleno.graffiti.tools.brushes.HorizontalLineBrush;
 	import com.nocircleno.graffiti.tools.brushes.RoundBrush;
+	import com.nocircleno.graffiti.tools.brushes.SquareBrush;
+	import com.nocircleno.graffiti.tools.brushes.VerticalLineBrush;
 	
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -34,7 +40,12 @@ package
          _graffiti = new GraffitiCanvas(stage.fullScreenWidth, stage.fullScreenHeight);
 			addChild(_graffiti);
          
-         var brush:RoundBrush = new RoundBrush(12, 0xff0000, 1);
+         //var brush:SquareBrush = new SquareBrush(12, 0xff0000, 1);
+         //var brush:HorizontalLineBrush = new HorizontalLineBrush(12, 0xff0000, 1);
+         //var brush:VerticalLineBrush = new VerticalLineBrush(12, 0xff0000, 1);
+         //var brush:ForwardLineBrush = new ForwardLineBrush(12, 0xff0000, 1);
+         //var brush:BackwardLineBrush = new BackwardLineBrush(12, 0xff0000, 1);
+         var brush:DiamondBrush = new DiamondBrush(12, 0xff0000, 1);
          _graffiti.brush = brush;
          
          var clearButton:Sprite = new Sprite();

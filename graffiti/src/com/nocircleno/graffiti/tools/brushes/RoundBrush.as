@@ -21,7 +21,6 @@ package com.nocircleno.graffiti.tools.brushes
    
    import flash.display.BitmapData;
    import flash.display.CapsStyle;
-   import flash.display.DisplayObject;
    import flash.display.GraphicsPathCommand;
    import flash.display.GraphicsPathWinding;
    import flash.display.LineScaleMode;
@@ -35,9 +34,17 @@ package com.nocircleno.graffiti.tools.brushes
       private var _previousPointRef:Point;
       private var _nextPointRef:Point;
       
-      public function RoundBrush(brushSize:Number = 4, brushColor:uint = 0x000000, brushAlpha:Number = 1, toolMode:String = null)
+      /**
+       * The <code>RoundBrush</code> constructor.
+       * 
+       * @param brushSize Size of the brush.
+       * @param brushColor Color of the brush.
+       * @param brushAlpha Alpha value of the brush.
+       * @param bitmapCacheRenderMode Render mode used when caching brush content to canvas bitmap.
+       */
+      public function RoundBrush(brushSize:Number = 4, brushColor:uint = 0x000000, brushAlpha:Number = 1, bitmapCacheRenderMode:String = null)
       {
-         super(brushSize, brushColor, brushAlpha, toolMode);
+         super(brushSize, brushColor, brushAlpha, bitmapCacheRenderMode);
       }
       
       /**
@@ -48,8 +55,7 @@ package com.nocircleno.graffiti.tools.brushes
        */
       public function cacheToBitmap(bitmap:BitmapData, drawingLayer:Sprite):void
       {
-         bitmap.draw(drawingLayer, new Matrix(), null, mode);
-         drawingLayer.graphics.clear();
+         bitmap.draw(drawingLayer, new Matrix(), null, bitmapCacheRenderMode);
          clearLastPath();
          applyGraphicsStyle(drawingLayer);
       }
@@ -57,33 +63,31 @@ package com.nocircleno.graffiti.tools.brushes
       /**
        * The <code>applyGraphicsStyle</code> method will apply the graphics draw style to display object.
        *
-       * @param drawingTarget Display object to draw interaction in.
+       * @param drawingLayer Sprite apply graphics style to.
        */
-      public function applyGraphicsStyle(drawingTarget:DisplayObject):void
+      public function applyGraphicsStyle(drawingLayer:Sprite):void
       {
-         Sprite(drawingTarget).graphics.lineStyle(_size, _color, _alpha, false, LineScaleMode.NORMAL, CapsStyle.ROUND);
+         drawingLayer.graphics.clear();
+         drawingLayer.graphics.lineStyle(_size, _color, _alpha, false, LineScaleMode.NORMAL, CapsStyle.ROUND);
       }
       
       /**
        * The <code>apply</code> method will draw the interactions to the drawing layer.
        *
-       * @param drawingTarget Display object to draw interaction in.
+       * @param drawingLayer Display object to draw interaction in.
        * @param interactionInstances List of Interaction Instances.
        */
-      public function apply(drawingTarget:DisplayObject, interactionInstances:Vector.<InteractionInstance>):void
+      public function apply(drawingLayer:Sprite, interactionInstances:Vector.<InteractionInstance>):void
       {
-         // cast target as a Sprite
-         var targetCast:Sprite = Sprite(drawingTarget);
-         
          if(_alpha == 1)
          {
             commands.length = 0;
             drawingData.length = 0;
          }
          
-         var numberInteractions:int = interactionInstances.length;
+         _numberInteractions = interactionInstances.length;
          
-         for(var i:int=0; i<numberInteractions; i++)
+         for(var i:int=0; i<_numberInteractions; i++)
          {
             _previousPointRef = interactionInstances[i].getPathNextToEndPoint();
             _nextPointRef = interactionInstances[i].getPathEndPoint();
@@ -106,11 +110,12 @@ package com.nocircleno.graffiti.tools.brushes
          }
          
          // draw brush session
-         if(_alpha < 1) {
-            targetCast.graphics.clear();
+         if(_alpha < 1)
+         {
+            applyGraphicsStyle(drawingLayer);
          }
          
-         targetCast.graphics.drawPath(commands, drawingData, GraphicsPathWinding.NON_ZERO); 
+         drawingLayer.graphics.drawPath(commands, drawingData, GraphicsPathWinding.NON_ZERO); 
       }
    }
 }
