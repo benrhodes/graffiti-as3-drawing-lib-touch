@@ -27,7 +27,6 @@ package com.nocircleno.graffiti.tools.brushes
    import flash.geom.Matrix;
    import flash.geom.Point;
    
-   
    public class BackwardLineBrush extends Brush implements IBrush
    {
       private var _previousPointRef:Point;

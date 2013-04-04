@@ -21,7 +21,6 @@ package com.nocircleno.graffiti.tools.brushes
    import com.nocircleno.graffiti.utils.Conversions;
    
    import flash.display.BitmapData;
-   import flash.display.DisplayObject;
    import flash.display.GraphicsPathCommand;
    import flash.display.GraphicsPathWinding;
    import flash.display.Sprite;

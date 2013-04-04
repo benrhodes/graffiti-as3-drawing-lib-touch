@@ -81,7 +81,7 @@ package com.nocircleno.graffiti.interaction
          
          _interactionInstanceReference = _interactionInstanceObjectPool.getInstance();
          _interactionInstanceReference.init(e.touchPointID);
-         _interactionInstanceReference.addPointToPath(new Point(e.localX, e.localY));
+         _interactionInstanceReference.setPendingPointToPath(new Point(e.localX, e.localY));
          _currentTouches[e.touchPointID] = _interactionInstanceReference; 
          _currentNumberTouches++;
          

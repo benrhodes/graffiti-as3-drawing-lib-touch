@@ -20,7 +20,6 @@ package com.nocircleno.graffiti.tools.brushes
    import com.nocircleno.graffiti.interaction.InteractionInstance;
    
    import flash.display.BitmapData;
-   import flash.display.DisplayObject;
    import flash.display.GraphicsPathCommand;
    import flash.display.GraphicsPathWinding;
    import flash.display.Sprite;
@@ -28,8 +27,7 @@ package com.nocircleno.graffiti.tools.brushes
    import flash.geom.Point;
    
    public class SquareBrush extends Brush implements IBrush
-   {
-      
+   {   
       private var _previousPointRef:Point;
       private var _nextPointRef:Point;
       private var _drawPoint1:Point;

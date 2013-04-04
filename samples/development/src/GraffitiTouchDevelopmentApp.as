@@ -23,6 +23,7 @@ package
       
       private var _graffiti:GraffitiCanvas;
       public static var debug_txt:TextField;
+      private var _selectedBrush:LabelButton;
       
 		public function GraffitiTouchDevelopmentApp()
 		{
@@ -40,47 +41,121 @@ package
          _graffiti = new GraffitiCanvas(stage.fullScreenWidth, stage.fullScreenHeight);
 			addChild(_graffiti);
          
-         //var brush:SquareBrush = new SquareBrush(12, 0xff0000, 1);
-         //var brush:HorizontalLineBrush = new HorizontalLineBrush(12, 0xff0000, 1);
-         //var brush:VerticalLineBrush = new VerticalLineBrush(12, 0xff0000, 1);
-         //var brush:ForwardLineBrush = new ForwardLineBrush(12, 0xff0000, 1);
-         //var brush:BackwardLineBrush = new BackwardLineBrush(12, 0xff0000, 1);
-         var brush:DiamondBrush = new DiamondBrush(12, 0xff0000, 1);
-         _graffiti.brush = brush;
-         
-         var clearButton:Sprite = new Sprite();
-         clearButton.graphics.beginFill(0x666666, 1);
-         clearButton.graphics.drawRoundRect(0, 0, 100, 90, 16, 16);
-         clearButton.graphics.endFill();
+         var clearButton:LabelButton = new LabelButton("Clear");
+         clearButton.width = 70;
+         clearButton.height = 55;
          clearButton.x = 10;
-         clearButton.y = 10;
+         clearButton.y = stage.fullScreenHeight - 65;
          addChild(clearButton);
-         
          clearButton.addEventListener(MouseEvent.CLICK, clearCanvas);
          
-         var fmt:TextFormat = new TextFormat();
-         fmt.size = 16;
+         var squareBrush:LabelButton = new LabelButton("Sq");
+         squareBrush.width = 55;
+         squareBrush.height = 55;
+         squareBrush.x = 10;
+         squareBrush.y = 10;
+         addChild(squareBrush);
          
-         debug_txt = new TextField();
-         debug_txt.width = stage.fullScreenWidth - 10;
-         debug_txt.x = 10;
-         debug_txt.multiline = true;
-         debug_txt.wordWrap = true;
-         debug_txt.autoSize = TextFieldAutoSize.LEFT;
-         debug_txt.alpha = .5;
-         debug_txt.defaultTextFormat = fmt;
-         debug_txt.mouseEnabled = false;
+         var backwardLineBrush:LabelButton = new LabelButton("Bl");
+         backwardLineBrush.width = 55;
+         backwardLineBrush.height = 55;
+         backwardLineBrush.x = squareBrush.getBounds(this).right + 10;
+         backwardLineBrush.y = 10;
+         addChild(backwardLineBrush);
+       
+         var forwardLineBrush:LabelButton = new LabelButton("Fl");
+         forwardLineBrush.width = 55;
+         forwardLineBrush.height = 55;
+         forwardLineBrush.x = backwardLineBrush.getBounds(this).right + 10;
+         forwardLineBrush.y = 10;
+         addChild(forwardLineBrush);
+    
+         var diamondBrush:LabelButton = new LabelButton("Di");
+         diamondBrush.width = 55;
+         diamondBrush.height = 55;
+         diamondBrush.x = forwardLineBrush.getBounds(this).right + 10;
+         diamondBrush.y = 10;
+         addChild(diamondBrush);
          
-         debug_txt.y = clearButton.getBounds(this).bottom + 10;
+         var horizontailLineBrush:LabelButton = new LabelButton("Hl");
+         horizontailLineBrush.width = 55;
+         horizontailLineBrush.height = 55;
+         horizontailLineBrush.x = diamondBrush.getBounds(this).right + 10;
+         horizontailLineBrush.y = 10;
+         addChild(horizontailLineBrush);
+       
+         var roundBrush:LabelButton = new LabelButton("Rb");
+         roundBrush.width = 55;
+         roundBrush.height = 55;
+         roundBrush.x = horizontailLineBrush.getBounds(this).right + 10;
+         roundBrush.y = 10;
+         addChild(roundBrush);
+   
+         var verticalLineBrush:LabelButton = new LabelButton("Vl");
+         verticalLineBrush.width = 55;
+         verticalLineBrush.height = 55;
+         verticalLineBrush.x = roundBrush.getBounds(this).right + 10;
+         verticalLineBrush.y = 10;
+         addChild(verticalLineBrush);
          
-         addChild(debug_txt);
+         squareBrush.name = "square";
+         backwardLineBrush.name = "backward"
+         forwardLineBrush.name = "forward"
+         diamondBrush.name = "diamond"
+         horizontailLineBrush.name = "horizontail"
+         roundBrush.name = "round"
+         verticalLineBrush.name = "vertical"
+         
+         squareBrush.addEventListener(MouseEvent.CLICK, brushChange);
+         backwardLineBrush.addEventListener(MouseEvent.CLICK, brushChange);
+         forwardLineBrush.addEventListener(MouseEvent.CLICK, brushChange);
+         diamondBrush.addEventListener(MouseEvent.CLICK, brushChange);
+         horizontailLineBrush.addEventListener(MouseEvent.CLICK, brushChange);
+         roundBrush.addEventListener(MouseEvent.CLICK, brushChange);
+         verticalLineBrush.addEventListener(MouseEvent.CLICK, brushChange);
          
 		}
+      
+      private function brushChange(e:MouseEvent):void
+      {
+         if(_selectedBrush)
+         {
+            _selectedBrush.setSelected(false);
+         }
+         
+         _selectedBrush = LabelButton(e.currentTarget);
+         _selectedBrush.setSelected(true);
+         
+         switch(e.currentTarget.name)
+         {
+            case "square":
+               _graffiti.brush = new SquareBrush(12, 0xff0000, 1);
+               break;
+            case "backward":
+               _graffiti.brush = new BackwardLineBrush(12, 0xff0000, 1);
+               break;
+            case "forward":
+               _graffiti.brush = new ForwardLineBrush(12, 0xff0000, 1);
+               break;
+            case "diamond":
+               _graffiti.brush = new DiamondBrush(12, 0xff0000, 1);
+               break;
+            case "horizontail":
+               _graffiti.brush = new HorizontalLineBrush(12, 0xff0000, 1);
+               break;
+            case "round":
+               _graffiti.brush = new RoundBrush(12, 0xff0000, 1);
+               break;
+            case "vertical":
+               _graffiti.brush = new VerticalLineBrush(12, 0xff0000, 1);
+               break;
+         }
+         
+      }
       
       private function clearCanvas(e:MouseEvent):void
       {
          _graffiti.clearCanvas();
-         debug_txt.text = "";
       }
 	}
 }
