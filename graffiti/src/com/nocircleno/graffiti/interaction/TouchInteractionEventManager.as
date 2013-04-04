@@ -71,7 +71,7 @@ package com.nocircleno.graffiti.interaction
          _currentTouches = new Object();
          _target.addEventListener(TouchEvent.TOUCH_BEGIN, onTouchBegin);	
          _target.addEventListener(TouchEvent.TOUCH_MOVE, onTouchMove);
-         _target.addEventListener(TouchEvent.TOUCH_END, onTouchEnd);
+         _target.addEventListener(TouchEvent.TOUCH_OUT, onTouchEnd);
       }
       
       private function onTouchBegin(e:TouchEvent):void
@@ -131,7 +131,7 @@ package com.nocircleno.graffiti.interaction
             }
             
             _interactionInstanceObjectPool.resetCount();
-         }   
+         } 
       }
       
       private function drawToFrame(e:Event):void

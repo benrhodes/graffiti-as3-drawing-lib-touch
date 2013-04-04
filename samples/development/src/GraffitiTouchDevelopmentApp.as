@@ -14,8 +14,6 @@ package
 	import flash.display.StageScaleMode;
 	import flash.events.MouseEvent;
 	import flash.text.TextField;
-	import flash.text.TextFieldAutoSize;
-	import flash.text.TextFormat;
 	
    [SWF(backgroundColor='#ffffff', frameRate='60')]
 	public class GraffitiTouchDevelopmentApp extends Sprite

@@ -122,6 +122,8 @@ package com.nocircleno.graffiti
          // Create Canvas Assets
          /////////////////////////////////////////////////
          drawing_layer = new Sprite();
+         drawing_layer.mouseEnabled = false;
+         drawing_layer.mouseChildren = false;
          container = new Sprite();
          
          _bmp = new BitmapData(_canvasWidth, _canvasHeight, true, 0x00FFFFFF);
