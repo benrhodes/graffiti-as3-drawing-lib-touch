@@ -8,10 +8,11 @@ package
    import flash.display.StageScaleMode;
    
    import flexUnitTests.GraffitiCanvasTest;
+   import flexUnitTests.GraffitiTouchSuite;
+   import flexUnitTests.InteractionInstanceTest;
+   import flexUnitTests.InteractiveInstanceObjectPoolTest;
    
    import flexunit.flexui.FlexUnitTestRunnerUIASMobile;
-   
-   import org.flexunit.runner.Request;
    
    public class FlexUnitApplication extends Sprite
    {
@@ -34,8 +35,10 @@ package
       public function currentRunTestSuite():Array
       {
          var testsToRun:Array = new Array();
-         testsToRun.push(Request.methods(flexUnitTests.GraffitiCanvasTest,["testDrawToCanvas"]));
-         
+         testsToRun.push(flexUnitTests.GraffitiTouchSuite);
+         testsToRun.push(flexUnitTests.GraffitiCanvasTest);
+         testsToRun.push(flexUnitTests.InteractionInstanceTest);
+         testsToRun.push(flexUnitTests.InteractiveInstanceObjectPoolTest);
          return testsToRun;
       }
    }
