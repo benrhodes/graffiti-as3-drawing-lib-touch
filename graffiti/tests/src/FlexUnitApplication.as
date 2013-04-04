@@ -7,10 +7,10 @@ package
    import flash.display.StageAspectRatio;
    import flash.display.StageScaleMode;
    
-   import flexUnitTests.GraffitiCanvasTest;
-   import flexUnitTests.GraffitiTouchSuite;
-   import flexUnitTests.InteractionInstanceTest;
-   import flexUnitTests.InteractiveInstanceObjectPoolTest;
+   import GraffitiTouchUnitTests.GraffitiCanvasTest;
+   import GraffitiTouchUnitTests.GraffitiTouchSuite;
+   import GraffitiTouchUnitTests.InteractionInstanceTest;
+   import GraffitiTouchUnitTests.InteractiveInstanceObjectPoolTest;
    
    import flexunit.flexui.FlexUnitTestRunnerUIASMobile;
    
@@ -35,10 +35,10 @@ package
       public function currentRunTestSuite():Array
       {
          var testsToRun:Array = new Array();
-         testsToRun.push(flexUnitTests.GraffitiTouchSuite);
-         testsToRun.push(flexUnitTests.GraffitiCanvasTest);
-         testsToRun.push(flexUnitTests.InteractionInstanceTest);
-         testsToRun.push(flexUnitTests.InteractiveInstanceObjectPoolTest);
+         testsToRun.push(GraffitiTouchUnitTests.GraffitiTouchSuite);
+         testsToRun.push(GraffitiTouchUnitTests.GraffitiCanvasTest);
+         testsToRun.push(GraffitiTouchUnitTests.InteractionInstanceTest);
+         testsToRun.push(GraffitiTouchUnitTests.InteractiveInstanceObjectPoolTest);
          return testsToRun;
       }
    }

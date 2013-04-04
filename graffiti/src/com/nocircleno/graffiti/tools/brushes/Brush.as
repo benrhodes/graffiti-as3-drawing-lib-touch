@@ -16,9 +16,8 @@
 */
 package com.nocircleno.graffiti.tools.brushes
 {
-   
    import com.nocircleno.graffiti.tools.BitmapCacheRenderMode;
-	
+   
 	/**
 	* Brush Class allows the user to paint anti-alias shapes to the Canvas.
 	*

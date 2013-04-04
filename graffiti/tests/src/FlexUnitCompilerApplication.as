@@ -7,17 +7,19 @@ package
 {
    import flash.display.Sprite;
    
-   import flexUnitTests.GraffitiTouchSuite;
-   import flexUnitTests.InteractionInstanceTest;
-   import flexUnitTests.InteractiveInstanceObjectPoolTest;
-   import flexUnitTests.GraffitiCanvasTest;
+   import GraffitiTouchUnitTests.GraffitiTouchSuite;
+   import GraffitiTouchUnitTests.InteractionInstanceTest;
+   import GraffitiTouchUnitTests.InteractiveInstanceObjectPoolTest;
+   import GraffitiTouchUnitTests.GraffitiCanvasTest;
+   import GraffitiTouchUnitTests.RoundBrushTest;
    
    public class FlexUnitCompilerApplication extends Sprite
    {
-      private var flexUnitTests_GraffitiCanvasTest_obj:flexUnitTests.GraffitiCanvasTest;
-      private var flexUnitTests_InteractiveInstanceObjectPoolTest_obj:flexUnitTests.InteractiveInstanceObjectPoolTest;
-      private var flexUnitTests_InteractionInstanceTest_obj:flexUnitTests.InteractionInstanceTest;
+      private var flexUnitTests_RoundBrushTest_obj:GraffitiTouchUnitTests.RoundBrushTest;
+      private var flexUnitTests_GraffitiCanvasTest_obj:GraffitiTouchUnitTests.GraffitiCanvasTest;
+      private var flexUnitTests_InteractiveInstanceObjectPoolTest_obj:GraffitiTouchUnitTests.InteractiveInstanceObjectPoolTest;
+      private var flexUnitTests_InteractionInstanceTest_obj:GraffitiTouchUnitTests.InteractionInstanceTest;
       
-      private var flexUnitTests_InteractionSuite_obj:flexUnitTests.GraffitiTouchSuite;
+      private var flexUnitTests_InteractionSuite_obj:GraffitiTouchUnitTests.GraffitiTouchSuite;
    }
 }

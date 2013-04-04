@@ -1,4 +1,4 @@
-package flexUnitTests
+package GraffitiTouchUnitTests
 {
    import com.nocircleno.graffiti.GraffitiCanvas;
    
