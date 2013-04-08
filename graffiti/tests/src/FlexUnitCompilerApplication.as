@@ -18,8 +18,7 @@ package
       private var flexUnitTests_RoundBrushTest_obj:GraffitiTouchUnitTests.RoundBrushTest;
       private var flexUnitTests_GraffitiCanvasTest_obj:GraffitiTouchUnitTests.GraffitiCanvasTest;
       private var flexUnitTests_InteractiveInstanceObjectPoolTest_obj:GraffitiTouchUnitTests.InteractiveInstanceObjectPoolTest;
-      private var flexUnitTests_InteractionInstanceTest_obj:GraffitiTouchUnitTests.InteractionInstanceTest;
-      
+      private var flexUnitTests_InteractionInstanceTest_obj:GraffitiTouchUnitTests.InteractionInstanceTest;  
       private var flexUnitTests_InteractionSuite_obj:GraffitiTouchUnitTests.GraffitiTouchSuite;
    }
 }

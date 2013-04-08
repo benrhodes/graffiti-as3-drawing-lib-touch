@@ -78,7 +78,7 @@ package com.nocircleno.graffiti.interaction
       {
          e.stopPropagation();
          e.preventDefault();
-         
+       
          _interactionInstanceReference = _interactionInstanceObjectPool.getInstance();
          _interactionInstanceReference.init(e.touchPointID);
          _interactionInstanceReference.setPendingPointToPath(new Point(e.localX, e.localY));

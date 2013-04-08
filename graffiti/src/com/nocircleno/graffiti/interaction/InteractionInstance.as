@@ -42,7 +42,7 @@ package com.nocircleno.graffiti.interaction
        *
        * @param instanceId Id for interaction
        */
-		public function init(instanceId):void
+		public function init(instanceId:int):void
       {
 			_interactionId = instanceId;
          _path.length = 0;

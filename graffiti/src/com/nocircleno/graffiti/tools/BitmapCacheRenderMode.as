@@ -26,12 +26,12 @@ package com.nocircleno.graffiti.tools {
 	public class BitmapCacheRenderMode {
 		
 		/**
-		*Use for regular drawing.
+		* Use for regular drawing.
 		*/
 		public static const NORMAL:String = "normal";
 		
 		/**
-		*Use for eraser functionality.
+		* Use for eraser functionality.
 		*/
 		public static const ERASE:String = "erase";
 		

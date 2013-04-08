@@ -35,7 +35,6 @@ package com.nocircleno.graffiti.tools.brushes
       private var _drawPoint1:Point;
       private var _drawPoint2:Point;
       private var _angleBetweenPoints:Number;
-      private var _numberInteractions:int;
       
       /**
        * The <code>ForwardLineBrush</code> constructor.

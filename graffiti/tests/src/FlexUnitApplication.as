@@ -2,15 +2,12 @@ package
 {
    import Array;
    
+   import GraffitiTouchUnitTests.GraffitiTouchSuite;
+   
    import flash.display.Sprite;
    import flash.display.StageAlign;
    import flash.display.StageAspectRatio;
    import flash.display.StageScaleMode;
-   
-   import GraffitiTouchUnitTests.GraffitiCanvasTest;
-   import GraffitiTouchUnitTests.GraffitiTouchSuite;
-   import GraffitiTouchUnitTests.InteractionInstanceTest;
-   import GraffitiTouchUnitTests.InteractiveInstanceObjectPoolTest;
    
    import flexunit.flexui.FlexUnitTestRunnerUIASMobile;
    
@@ -36,9 +33,6 @@ package
       {
          var testsToRun:Array = new Array();
          testsToRun.push(GraffitiTouchUnitTests.GraffitiTouchSuite);
-         testsToRun.push(GraffitiTouchUnitTests.GraffitiCanvasTest);
-         testsToRun.push(GraffitiTouchUnitTests.InteractionInstanceTest);
-         testsToRun.push(GraffitiTouchUnitTests.InteractiveInstanceObjectPoolTest);
          return testsToRun;
       }
    }
