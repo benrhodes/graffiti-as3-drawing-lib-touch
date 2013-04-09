@@ -16,11 +16,15 @@
 */
 package com.nocircleno.graffiti.tools.brushes
 {
-   import flash.display.DisplayObject;
-   import flash.geom.Point;
+   import com.nocircleno.graffiti.interaction.InteractionInstance;
+   
+   import flash.display.BitmapData;
+   import flash.display.Sprite;
 
    public interface IBrush
    {
-      function apply(drawingTarget:DisplayObject, point1:Point, point2:Point = null):void;
+      function cacheToBitmap(bitmap:BitmapData, drawingLayer:Sprite):void;
+      function applyGraphicsStyle(drawingLayer:Sprite):void;
+      function apply(drawingLayer:Sprite, interactionInstance:Vector.<InteractionInstance>):void;
    }
 }

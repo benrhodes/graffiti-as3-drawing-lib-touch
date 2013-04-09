@@ -1,3 +1,19 @@
+/*
+*  	Graffiti Touch
+*  	______________________________________________________________________
+*  	www.nocircleno.com/graffiti/
+*/
+
+/*
+* 	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+* 	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+* 	OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+* 	NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+* 	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+* 	WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+* 	FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+* 	OTHER DEALINGS IN THE SOFTWARE.
+*/
 package com.nocircleno.graffiti.interaction
 {
 	import flash.geom.Point;
@@ -5,38 +21,71 @@ package com.nocircleno.graffiti.interaction
 	public class InteractionInstance
 	{
 		
-		private var _interactionId:int;
-		private var _history:Vector.<Point>;
+		private var _interactionId:int = -1;
+		private var _path:Vector.<Point>;
+      private var _pendingPointDirty:Boolean = false;
+      private var _pendingPoint:Point;
 		
-		public function InteractionInstance() {}
+		public function InteractionInstance()
+      {
+         _pendingPoint = new Point();
+         _path = new Vector.<Point>();
+      }
 		
 		public function get interactionId():int
       {
 			return _interactionId;
 		}
 		
-		public function init(instanceId):void
+      /**
+       * The <code>init</code> method will refresh the instance.
+       *
+       * @param instanceId Id for interaction
+       */
+		public function init(instanceId:int):void
       {
 			_interactionId = instanceId;
-			_history = new Vector.<Point>();
+         _path.length = 0;
+         _pendingPointDirty = false;
+		}
+
+      public function setPendingPointToPath(point:Point):void {
+         _pendingPoint.x = point.x;
+         _pendingPoint.y = point.y;
+         _pendingPointDirty = true;
+      }
+      
+      public function writePendingPointToPath():Boolean {
+         if(_pendingPointDirty) {
+            _pendingPointDirty = false;
+            _path.push(_pendingPoint.clone());
+            return true;
+         }
+         return false;
+      }
+		
+		public function addPointToPath(point:Point):void
+      {
+			_path.push(point);
 		}
 		
-		public function addPoint(point:Point):void
+      public function getInstancePath():Vector.<Point>
       {
-			_history.push(point);
-		}
-		
-      public function getPreviousPoint():Point
+         return _path;
+      }
+      
+      public function getPathNextToEndPoint():Point
       {
-         if(_history.length - 1 > 0) {
-            return _history[_history.length - 2];
+         if(_path.length - 1 > 0) {
+            return _path[_path.length - 2];
          }
          return null;
       }
       
-		public function getNextPoint():Point {
-			if(_history.length > 0) {
-				return _history[_history.length - 1];
+		public function getPathEndPoint():Point
+      {
+			if(_path.length > 0) {
+				return _path[_path.length - 1];
 			}
 			return null;
 		}

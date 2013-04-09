@@ -23,15 +23,15 @@ package com.nocircleno.graffiti.tools {
 	* @langversion 3.0
     * @playerversion Flash 10 AIR 1.5 
 	*/
-	public class ToolMode {
+	public class BitmapCacheRenderMode {
 		
 		/**
-		*Use for regular drawing.
+		* Use for regular drawing.
 		*/
 		public static const NORMAL:String = "normal";
 		
 		/**
-		*Use for eraser functionality.
+		* Use for eraser functionality.
 		*/
 		public static const ERASE:String = "erase";
 		
@@ -45,7 +45,7 @@ package com.nocircleno.graffiti.tools {
 		
 			var valid:Boolean = false;
 			
-			if(mode == ToolMode.NORMAL || mode == ToolMode.ERASE) {
+			if(mode == BitmapCacheRenderMode.NORMAL || mode == BitmapCacheRenderMode.ERASE) {
 				valid = true;
 			}
 			

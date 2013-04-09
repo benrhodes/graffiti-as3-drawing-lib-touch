@@ -49,12 +49,18 @@
   <buildCSSFiles/>
   <flashCatalyst validateFlashCatalystCompatibility="false"/>
   <buildTargets>
-    <buildTarget buildTargetName="device" iosSettingsVersion="2" isCurrent="true" platformId="com.adobe.flexide.multiplatform.ios.platform" provisioningFile="/Users/b.rhodes/Dropbox/Dev/nocircleno_provision.mobileprovision" releasePackageType="">
-      <multiPlatformSettings enabled="true" hideAneLibSymbols="0" includePlatformLibs="false" platformID="com.adobe.flexide.multiplatform.ios.platform" reducedSizePackaging="false" version="1"/>
-      <airSettings airCertificatePath="/Users/b.rhodes/Dropbox/Dev/ios_certificate.p12" airTimestamp="true" anePathSet="true" version="1">
-        <airExcludes/>
+    <buildTarget buildTargetName="device" iosSettingsVersion="2" isCurrent="true" platformId="com.adobe.flexide.multiplatform.ios.platform" provisioningFile="/Users/b.rhodes/Dropbox/Dev/nocircleno_provision.mobileprovision" releasePackageType="ipa-ad-hoc">
+      <airSettings airCertificatePath="/Users/b.rhodes/Dropbox/Dev/ios_development.p12" airTimestamp="true" anePathSet="true" version="1">
+        <airExcludes>
+          <pathEntry path=".DS_Store"/>
+        </airExcludes>
         <anePaths/>
+        <newLaunchParams/>
+        <modifiedLaunchParams/>
+        <newPackagingParams/>
+        <modifiedPackagingParams/>
       </airSettings>
+      <multiPlatformSettings enabled="true" hideAneLibSymbols="0" includePlatformLibs="false" nativeSDKPathString="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk" platformID="com.adobe.flexide.multiplatform.ios.platform" reducedSizePackaging="false" version="1"/>
       <actionScriptSettings version="1"/>
     </buildTarget>
     <buildTarget airDownloadURL="" androidSettingsVersion="2" buildTargetName="device" isCurrent="true" platformId="com.adobe.flexide.multiplatform.android.platform">
@@ -62,6 +68,10 @@
       <airSettings airCertificatePath="/Users/b.rhodes/Dropbox/Dev/ncn_android.p12" airTimestamp="true" anePathSet="true" version="1">
         <airExcludes/>
         <anePaths/>
+        <newLaunchParams/>
+        <modifiedLaunchParams/>
+        <newPackagingParams/>
+        <modifiedPackagingParams/>
       </airSettings>
       <actionScriptSettings version="1"/>
     </buildTarget>
@@ -70,6 +80,10 @@
       <airSettings airCertificatePath="" airTimestamp="true" anePathSet="false" version="1">
         <airExcludes/>
         <anePaths/>
+        <newLaunchParams/>
+        <modifiedLaunchParams/>
+        <newPackagingParams/>
+        <modifiedPackagingParams/>
       </airSettings>
       <actionScriptSettings version="1"/>
     </buildTarget>
