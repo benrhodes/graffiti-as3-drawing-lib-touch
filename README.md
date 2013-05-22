@@ -18,7 +18,7 @@ More information can be found at <http://www.nocircleno.com/graffiti/>
 
 ## Documentation
 
-[Online AS Docs](http://www.nocircleno.com/graffiti/docs/touch_0.1/ "Online AS Docs")
+[Online AS Docs](http://www.nocircleno.com/graffiti/docs/touch_0.2/ "Online AS Docs")
 
 ## Release Notes:
 
