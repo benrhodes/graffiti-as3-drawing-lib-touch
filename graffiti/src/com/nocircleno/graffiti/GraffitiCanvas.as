@@ -31,6 +31,10 @@ package com.nocircleno.graffiti
    import flash.display.DisplayObject;
    import flash.display.IBitmapDrawable;
    import flash.display.Sprite;
+   import flash.filters.BitmapFilterQuality;
+   import flash.filters.BitmapFilterType;
+   import flash.filters.GradientGlowFilter;
+   import flash.geom.ColorTransform;
    import flash.geom.Point;
    import flash.geom.Rectangle;
    
@@ -264,6 +268,88 @@ package com.nocircleno.graffiti
       {
          _bmp.fillRect(new Rectangle(0, 0, _canvasWidth, _canvasHeight), 0x00FFFFFF);  
       }
+      
+      /**
+       * The <code>fill</code> method will flood fill an area of the drawing with the supplied color.
+       *
+       * @param point Point at which to flood fill with color.
+       * @param color Color to fill with.
+       * @param useEntireCanvas Set to true to use an overlaid or underlaid display object when filling.
+       * @param useAdvancedFill Set to smooth out the fill.
+       * @param smoothStrength The strength of the smoothing when using the advanced fill setting.
+       */
+      public function fill(point:Point, color:uint, useEntireCanvas:Boolean = false, useAdvancedFill:Boolean = true, smoothStrength:int = 8):void
+      {
+         // make sure point is within bitmap size
+         if (_bmp.rect.containsPoint(point))
+         {
+            
+            // if a color is passed with no alpha component, then add it.
+            if((color>>24) == 0)
+            {
+               // add alpha value to color value.
+               color = 0xFF << 24 | color;  
+            }
+            
+            var snapshot1:BitmapData;
+            var snapshot2:BitmapData;
+    
+            if (useEntireCanvas)
+            {
+               snapshot1 = getComposition(true);
+            }
+            else
+            {
+               snapshot1 = _bmp.clone();
+            }
+           
+            snapshot2 = BitmapData(snapshot1.clone());
+            snapshot1.floodFill(point.x, point.y, color);
+            
+            var compareResult:Object = snapshot1.compare(snapshot2);
+            
+            // check to make sure compare result exists (snapshots are not the same).
+            if (compareResult != 0)
+            {
+               
+               var comp:BitmapData = BitmapData(compareResult);
+               var compAlpha:BitmapData = comp.clone();
+               
+               // get alpha value from color
+               var alphaValue:uint = color >> 24 & 0x000000FF;
+               var alphaNormalized:Number = alphaValue * 0.003921568627450980392156862745098;
+               
+               // only apply filter if advanced fill is set
+               if (useAdvancedFill)
+               {   
+                  // apply glow to smoothout and expand the fill a little
+                  comp.applyFilter(comp, comp.rect, new Point(0, 0), new GradientGlowFilter(0, 90, [color, color], [0, alphaNormalized], [0, 255], 2, 2, smoothStrength, BitmapFilterQuality.HIGH, BitmapFilterType.FULL, true));
+                  
+                  // we do not want to apply any alpha settings to this copy that will be used as an alpha mask with copy pixels
+                  compAlpha.applyFilter(comp, comp.rect, new Point(0, 0), new GradientGlowFilter(0, 90, [color, color], [0, 0], [0, 255], 2, 2, smoothStrength, BitmapFilterQuality.HIGH, BitmapFilterType.FULL));    
+               } 
+               else
+               {       
+                  // change color of fill difference to desired color
+                  var cTransform:ColorTransform = new ColorTransform(1, 1, 1, 0, 0, 0, 0, alphaValue);
+                  cTransform.color = color;
+                  comp.colorTransform(comp.rect, cTransform);     
+               }
+               
+               // copy fill back into bitmap
+               _bmp.copyPixels(comp, comp.rect, new Point(0, 0), compAlpha, new Point(0, 0), true);
+               
+               // kill compare bitmapdata objects
+               comp.dispose();
+               compAlpha.dispose();  
+            }
+            
+            // kill snapshot bitmapdata objects
+            snapshot1.dispose();
+            snapshot2.dispose();   
+         }
+      }
+
       
       /**
        * The <code>getComposition</code> method will return the bitmapdata object that captures
