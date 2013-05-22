@@ -289,6 +289,17 @@ package com.nocircleno.graffiti
       }
       
       /**
+       * The <code>getDrawingLayer</code> method will return a direct reference to the drawing layer.
+       * This is meant to give developers an outside way to use the drawing layer directly.
+       * 
+       * @return A BitmapData object for the drawing layer.
+       */
+      public function getDrawingLayer():BitmapData
+      {    
+         return _bmp;
+      }
+      
+      /**
        * The <code>drawToCanvas</code> method will draw a display object or bitmapdata object to the canvas.
        * This allows you to add an image that will be editable by the drawing engine.
        * 
