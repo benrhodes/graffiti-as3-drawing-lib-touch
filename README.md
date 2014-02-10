@@ -1,7 +1,7 @@
 # Graffiti Touch: ActionScript 3 Bitmap Drawing Library
 **Version 0.2.0**
 
-The Graffiti Touch is a multi-touch drawing library designed for mobile. It has been rewritten from the ground up for performance and scalability.  Integrate drawing functionality Mobile Air project today.
+The Graffiti Touch is a multi-touch drawing library designed for mobile. It has been rewritten from the ground up for performance and scalability.  Integrate drawing functionality in Mobile Air project today.
 
 ## Features
 
