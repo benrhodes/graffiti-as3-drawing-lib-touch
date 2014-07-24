@@ -46,12 +46,12 @@ package com.nocircleno.graffiti.tools.brushes
 		* @param brushAlpha Alpha value of the brush.
 		* @param bitmapCacheRenderMode Render mode used when caching brush content to canvas bitmap.
 		*/
-		public function Brush(brushSize:Number = 4, brushColor:uint = 0x000000, brushAlpha:Number = 1, bitmapCacheRenderMode:String = null)
+		public function Brush(brushSize:Number = 4, brushColor:uint = 0x000000, brushAlpha:Number = 1, brushBitmapCacheRenderMode:String = null)
       {
 			size = brushSize;
 			color = brushColor;
 			alpha = brushAlpha;
-			bitmapCacheRenderMode = bitmapCacheRenderMode;
+			bitmapCacheRenderMode = brushBitmapCacheRenderMode;
 		}
       
       /**
